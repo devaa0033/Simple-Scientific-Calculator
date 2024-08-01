@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+
+<style>
+    body{
+        padding: 0;
+        margin: 0;
+        display: flex;
+        background: #ecf0f3;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+       
+    }
+    .container{
+        width: 45%;
+        height: 45vh;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 12px 12px 20px #cbced1,
+                    -12px -12px 20px #ffffff;
+    }
+    .display #screen{
+        width: 97%;
+        height: 70px;
+        font-size: 35px;
+        outline: none;
+        border: none;
+        text-align: right;
+        padding-right: .5rem;
+        background: #ecf0f3;
+        border-radius: 6px;
+        box-shadow: inset 8px 8px 8px #cbced1,
+                    inset -8px -8px 8px #ffffff;
+    }
+    .btns{
+        width: 100%;
+        margin-top: 1.7em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .btns .row button{
+        width: 80px;
+        height: 30px;
+        font-size: 16px;
+        border: none;
+        outline: none;
+        margin: 5px;
+        border-radius: 4px;
+        box-shadow: 5px 5px 8px #00000020,  -5px -5px 8px #ffffff;
+        transform: .1s;
+    }
+    .btns .row button:hover{
+        box-shadow: inset 5px 5px 8px rgba(16, 16, 16, .1), inset -5px -5px 8px #fff;
+        background: #fff;
+    }
+
+    #eval{
+        background: #33ccff;
+        color: #fff;
+        box-shadow: inset 5px 5px 8px #66d9ff, inset -5px -5px 8px #00ace6;
+    }
+    #eval:hover{
+        background: #33ccff;
+        color: #fff;
+        box-shadow: inset 5px 5px 8px #00ace6, inset -5px -5px 8px #00ace6;
+    }
+
+    #ac{
+        background: #33cc33;
+        color: #fff;
+    }
+    #ac:hover{
+        box-shadow: inset 5px 5px 8px #2eb82e, inset -5px -5px 8px #33cc33;
+    }
+
+    #ce{
+        background: #ff3399;
+        color: #fff;
+    }
+    #ce:hover{
+        box-shadow: inset 5px 5px 8px #e60073, inset -5px -5px 8px #ff3399;
+    }
+/* Add this to your existing CSS */
+
+#history-btn{
+    margin-top: 0px;
+    padding: 1px;
+    /*background: #f39c12;*/
+    color: #0f0000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#history-btn:hover {
+    background: #e67e22;
+}
+
+.history {
+    display: none;
+    width: 100%;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+.history h2 {
+    margin: 0;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.history ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.history li {
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+    font-size: 16px;
+}
+
+
+
+</style>
+<body>
+    <div class="container">
+        <button id="history-btn" onclick="toggleHistory()"><i class='bx bx-history'></i></button>
+        <div class="display">
+            <input id="screen" type="text" placeholder="0" name="">
+        </div>
+       
+       
+        <div class="btns">
+           
+            <div class="row">
+                <button id="ce" onclick="backspc()">CE</button>
+                <button onclick="fact()">x!</button>
+                <button class="btn">(</button>
+                <button class="btn">)</button>
+                <button class="btn">%</button>
+                <button id="ac" onclick="screen.value= '' ">AC</button>
+            </div>
+
+            <div class="row">
+                <button onclick="sin()">sin</button>
+                <button onclick="pi()">π</button>
+                <button class="btn">7</button>
+                <button class="btn">8</button>
+                <button class="btn">9</button>
+                <button class="btn">÷</button>
+            </div>
+
+            <div class="row">
+                <button onclick="cos()">cos</button>
+                <button onclick="log()">log</button>
+                <button class="btn">4</button>
+                <button class="btn">5</button>
+                <button class="btn">6</button>
+                <button class="btn">×</button>
+            </div>
+
+            <div class="row">
+                <button onclick="tan()">tan</button>
+                <button onclick="sqrt()">√</button>
+                <button class="btn">1</button>
+                <button class="btn">2</button>
+                <button class="btn">3</button>
+                <button class="btn">-</button>
+            </div>
+
+            <div class="row">
+                <button onclick="e()">e</button>
+                <button onclick="pow()">x<span style="position: relative; bottom: .4em; right: .1em;">y</span></button>
+                <button class="btn">0</button>
+                <button class="btn">.</button>
+                 <!-- <button id="eval" onclick="screen.value=eval(screen.value)">=</button>-->
+             <button id="eval" onclick="evaluateExpression()">=</button>
+                <button class="btn" onclick="add()">+</button>
+            </div>
+
+        </div>
+
+         <!-- History Section -->
+         <div id="history" class="history">
+            <h2>History</h2>
+            <ul id="history-list"></ul>
+        </div>
+
+    </div>
+</body>
+
+<!---------------------------------------JAVAScript File----------------------------------------------------------------------->
+<script>
+     var screen = document.querySelector('#screen');
+    var btn = document.querySelectorAll('.btn');
+    var historyList = document.querySelector('#history-list');
+    var historySection = document.querySelector('#history');
+    var history = [];
+
+    function appendToHistory(expression, result) {
+        var historyItem = document.createElement('li');
+        historyItem.textContent = `${expression} = ${result}`;
+        historyList.appendChild(historyItem);
+        history.push({ expression, result });
+    }
+
+    function toggleHistory() {
+        if (historySection.style.display === 'block') {
+            historySection.style.display = 'none';
+        } else {
+            historySection.style.display = 'block';
+        }
+    }
+
+    for (item of btn) {
+        item.addEventListener('click', (e) => {
+            btntext = e.target.innerText;
+
+            if (btntext == '×') {
+                btntext = '*';
+            }
+            if (btntext == '÷') {
+                btntext = '/';
+            }
+
+            screen.value += btntext;
+        });
+    }
+
+    function evaluateExpression() {
+        try {
+            const expression = screen.value;
+            const result = safeEval(expression);
+            appendToHistory(expression, result);
+            screen.value = result;
+        } catch (e) {
+            screen.value = eval(screen.value);
+        }
+    }
+
+    function safeEval(expression) {
+        // Replace certain constants and functions for safer evaluation
+        expression = expression.replace(/π/g, 'Math.PI');
+        expression = expression.replace(/e/g, 'Math.E');
+        expression = expression.replace(/√/g, 'Math.sqrt');
+        expression = expression.replace(/sin/g, 'Math.sin');
+        expression = expression.replace(/cos/g, 'Math.cos');
+        expression = expression.replace(/tan/g, 'Math.tan');
+        expression = expression.replace(/log/g, 'Math.log');
+
+        return Function('"use strict";return (' + expression + ')')();
+    }
+
+function add(){
+    screen.value=Math.add(screen.value);
+}
+
+
+
+    function sin(){
+        screen.value=Math.sin(screen.value);
+    }
+
+    function cos(){
+        screen.value=Math.cos(screen.value);
+    } 
+
+    function tan(){
+        screen.value=Math.tan(screen.value);
+    }
+
+    function pow(){
+        screen.value=Math.pow(screen.value,2);
+    }
+
+    function sqrt(){
+        screen.value=Math.sqrt(screen.value,2);
+    }
+
+    function log(){
+        screen.value=Math.log(screen.value);
+    }
+
+    function pi(){
+        screen.value=3.14159265359;
+    }
+
+    function e(){
+        screen.value=2.71828182846;
+    }
+
+    function fact(){
+        var i, num, f;
+        f=1
+        num.screen.value;
+        for(i=1; i<=num; i++){
+            f=f*i;
+        }
+        i=i-1;
+        screen.value=f;
+    }
+
+    function backspc(){
+        screen.value=screen.value.substr(0,screen.value.length-1);
+    }
+</script>
+
+</html>
