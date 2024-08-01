@@ -23,7 +23,6 @@ o	For calculations involving pi, use the π button to insert the constant.
 o	The history log will automatically update with each calculation.
 o	Scroll through the history to review past calculations.
 
-
-#OUTPUT 
-![image](https://github.com/user-attachments/assets/01c00959-6bfb-4ed5-9e51-aa34595cb3d8)
+To run this project, click on this 👇 link.
+https://joyful-chaja-97be1b.netlify.app
 
